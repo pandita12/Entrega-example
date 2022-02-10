@@ -5,16 +5,15 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
+from django.utils.translation import gettext_lazy as _
 
 
+class UserType(models.Model):
+    name_type = models.CharField(max_length=20, null=False)
+    permission_level = models.IntegerField()
 
-
-class Tipo_user(models.Model):
-    user_admin = models.CharField(max_length=10)
-    user_mod = models.CharField(max_length=10)
-    user_doc = models.CharField(max_length=10)
-    user_est = models.CharField(max_length=10)
-
+    def __str__(self):
+        return self.name_type
 
 
 class User(AbstractUser):
@@ -23,18 +22,17 @@ class User(AbstractUser):
     If adding fields that need to be filled at user signup,
     check forms.SignupForm and forms.SocialSignupForms accordingly.
     """
+    GENDER_CHOICES = [
+        ('F', _('Female')),
+        ('M', _('Male'))
+    ]
     #: First and last name do not cover name patterns around the globe
     name = models.CharField(blank=True, max_length=30)
     first_name = models.CharField(max_length=30)
     dni = models.CharField(max_length=8, null=True, unique=True)
     email = models.EmailField(max_length=50)
-    sexos = [
-        ('F', 'Femenino'),
-        ('M', 'Masculino')
-    ]
-    sexo = models.CharField(max_length=1, choices=sexos, default='F')
-    tipo_user_id = models.ForeignKey(Tipo_user, null=False, blank=False, on_delete=models.CASCADE)
-
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='F')
+    user_type = models.ForeignKey(UserType, null=True, on_delete=models.CASCADE)
 
     def get_absolute_url(self):
         """Get url for user's detail view.
@@ -52,11 +50,9 @@ class Materia(models.Model):
     usuario_id = models.OneToOneField(User, null=False, blank=False, on_delete=models.CASCADE)
 
 
-
 class Clase(models.Model):
-     usuario_id = models.ForeignKey(User, null=False, blank=False, on_delete=models.CASCADE)
-     materia_id = models.ForeignKey(Materia, null=False, blank=False, on_delete=models.CASCADE)
-
+    usuario_id = models.ForeignKey(User, null=False, blank=False, on_delete=models.CASCADE)
+    materia_id = models.ForeignKey(Materia, null=False, blank=False, on_delete=models.CASCADE)
 
 
 class Est_grupo(models.Model):
@@ -69,11 +65,11 @@ class Profesor(models.Model):
     usuario_id = models.ForeignKey(User, null=False, blank=False, on_delete=models.CASCADE)
     materia_id = models.ForeignKey(Materia, null=False, blank=False, on_delete=models.CASCADE)
 
+
 class Config_bot(models.Model):
     timefin = models.DateField()
     contenido_id = models.FileField(max_length=10)
     profesor_id = models.OneToOneField(Profesor, null=False, blank=False, on_delete=models.CASCADE)
-
 
 
 class Evaluation(models.Model):
@@ -87,25 +83,8 @@ class Evaluation(models.Model):
     config_bot_id = models.OneToOneField(Config_bot, null=False, blank=False, on_delete=models.CASCADE)
 
 
-
 class Entregar_asig(models.Model):
     deliver_date = models.DateTimeField()
     status_notifies = models.BooleanField(max_length=1)
     usuario_id = models.ForeignKey(User, null=False, blank=False, on_delete=models.CASCADE)
     evaluacion_id = models.ForeignKey(Evaluation, null=False, blank=False, on_delete=models.CASCADE)
-
-
-
-
-
-
-
-
-
-
-     
-
-
-    
-
-
