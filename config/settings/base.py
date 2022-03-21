@@ -89,11 +89,11 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "aplicacion.users",
-    "apps.consumer.apps",
-    "apps.lesson.apps",
-    "apps.teacherbot.apps",
-    "apps.evaluation.apps",
-    
+    "apps.consumer",
+    "apps.lesson",
+    "apps.teacherbot",
+    "apps.evaluation",
+
 
     # Your stuff: custom apps go here
 ]
