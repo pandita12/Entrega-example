@@ -32,6 +32,8 @@ class User(models.Model):
     name = models.CharField(blank=True, max_length=30)
     first_name = models.CharField(max_length=30)
     dni = models.CharField(max_length=8, null=True, unique=True)
+    direction = models.CharField(max_length=30)
+    phone = models.CharField(max_length=8)
     email = models.EmailField(max_length=50)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='F')
     user_type = models.ForeignKey(UserType, null=True, on_delete=models.CASCADE)

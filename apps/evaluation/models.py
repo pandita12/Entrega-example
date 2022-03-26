@@ -1,8 +1,8 @@
 from django.db import models
 
 from apps.consumer.models import User
-from apps.lesson.models import Classroom
-from apps.teacherbot.models import Professor, Config_bot
+from apps.lesson.models import Classroom, Professor
+from apps.teacherbot.models import Config_bot
 # Create your models here.
 
 class Evaluation(models.Model):
