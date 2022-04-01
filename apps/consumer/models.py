@@ -18,7 +18,8 @@ class UserType(models.Model):
 
 
 
-class User(models.Model):
+class User(AbstractUser):
+
     """
     Default custom user model for aplicacion.
     If adding fields that need to be filled at user signup,
@@ -35,6 +36,7 @@ class User(models.Model):
     direction = models.CharField(max_length=30)
     phone = models.CharField(max_length=8)
     email = models.EmailField(max_length=50)
+    password = models.CharField(max_length=7)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='F')
     user_type = models.ForeignKey(UserType, null=True, on_delete=models.CASCADE)
 
